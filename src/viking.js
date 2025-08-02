@@ -59,9 +59,14 @@ class War {
         this.saxonArmy.push(saxon);
     }
     vikingAttack() {
-        const randomSaxon = this.SaxonArmy[Math.floor(this.SaxonArmy.length * Math.random)];
-        const randomViking = this.vikingArmy[Math.floor(this.vikingArmy.length * Math.random)];
-        const result = randomSaxon.receiveDamage(randomViking.strength);
+        const indexSaxon = Math.floor(Math.random() * this.saxonArmy.length)
+        const indexViking = Math.floor(Math.random() * this.vikingArmy.length)
+
+        const randomSaxon = this.SaxonArmy[indexSaxon];
+        const randomViking = this.vikingArmy[indexViking];
+        const resultAttack = randomSaxon.receiveDamage(randomViking.strength);
+
+
 
         if (randomSaxon.health <= 0) {
             this.SaxonArmy.splice([Math.floor(this.SaxonArmy.length * Math.random)], 1);
@@ -71,8 +76,12 @@ class War {
         }
     }
     saxonAttack() {
-        const randomSaxon = this.SaxonArmy[Math.floor(this.SaxonArmy.length * Math.random)];
-        const randomViking = this.vikingArmy[Math.floor(this.vikingArmy.length * Math.random)];
+
+        const indexSaxon = Math.floor(Math.random() * this.saxonArmy.length)
+        const indexViking = Math.floor(Math.random() * this.vikingArmy.length)
+
+        const randomSaxon = this.SaxonArmy[indexSaxon];
+        const randomViking = this.vikingArmy[indexViking];
         const resultAttack = randomViking.receiveDamage(randomSaxon.strength);
 
         if (randomViking.health <= 0) {
@@ -93,3 +102,26 @@ class War {
         }
     }
 
+    // BONUS 5 hacer el metodo para el ataque genérico, y luego se elige atacante con el metodo especifico de cada uno.
+    genericAttack(attackerArmy, defenderArmy) {
+       
+        const indexAttacker = Math.floor(Math.random() * attackerArmy.length);
+        const indexDefender = Math.floor(Math.random() * defenderArmy.length);
+
+
+        const randomAttacker = attackerArmy[indexAttacker];
+        const randomDefender = defenderArmy[indexDefender];
+        const resultAttack = randomDefender.receiveDamage(randomAttacker.strength);
+
+        if (randomDefender.health <= 0) {
+            defenderArmy.splice(indexDefender, 1);
+        } return resultAttack;
+    }
+
+    vikingAttack() {
+        return this.genericAttack(this.vikingArmy, this.saxonArmy);
+    }
+
+    saxonAttack() {
+        return this.saxonAttack(this.saxonArmy, this.vikingArmy)
+    }
